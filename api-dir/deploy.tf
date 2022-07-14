@@ -25,7 +25,7 @@ resource "kubernetes_deployment_v1" "horangi-deploy" {
 
       spec {
         container {
-          image = "13ihsan92/horangi-api:latest"
+          image = "13ihsan92/horangi-api:1.0.1"
           name  = "api-horangi"
 
           port {

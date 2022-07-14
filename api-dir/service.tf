@@ -7,11 +7,10 @@ resource "kubernetes_service" "api-svc" {
     selector = {
       version = kubernetes_deployment_v1.horangi-deploy.metadata.0.labels.version
     }
-    session_affinity = "ClientIP"
     port {
       port        = 3000
       target_port = 3000
-      node_port = 30303
+      node_port = 30300
     }
 
     type = "NodePort"
