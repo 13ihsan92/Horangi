@@ -4,20 +4,24 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                git credentialsId: '7784c1ac-91c8-4f7d-a0a2-4ae8d018f08d', url: 'https://github.com/13ihsan92/Horangi.git'
+                checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: '7784c1ac-91c8-4f7d-a0a2-4ae8d018f08d', url: 'https://github.com/13ihsan92/Horangi.git']]])
+                dir('api-dir') {
+                    bat 'docker build -t 13ihsan92/horangi-api:1.0.1 .'
+                    bat 'docker login -u 13ihsan92 -p 2418029d-cc8c-4951-9491-19389cbaf3ed'
+                    bat 'docker push 13ihsan92/horangi-api:1.0.1'
+                }
             }
         }
         stage('Security') {
             steps {
-                //
+                bat 'ping google.com'
             }
         }
         
         stage('Deploy') {
             steps {
                 dir('api-dir') {
-                    bat 'terraform init'
-                    bat 'terraform apply --auto-approve'
+                    bat 'terraform %action% --auto-approve'
                 }
             }
         }
