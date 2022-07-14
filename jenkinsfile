@@ -1,0 +1,25 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                git credentialsId: '7784c1ac-91c8-4f7d-a0a2-4ae8d018f08d', url: 'https://github.com/13ihsan92/Horangi.git'
+            }
+        }
+        stage('Security') {
+            steps {
+                //
+            }
+        }
+        
+        stage('Deploy') {
+            steps {
+                dir('api-dir') {
+                    bat 'terraform init'
+                    bat 'terraform apply --auto-approve'
+                }
+            }
+        }
+    }
+}
