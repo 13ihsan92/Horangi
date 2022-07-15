@@ -14,7 +14,10 @@ pipeline {
         }
         stage('Security') {
             steps {
-                bat 'ping google.com'
+                bat 'docker run -d --rm -p 3000:3000 --name horangi-test 13ihsan92/horangi-api:1.0.1'
+                bat 'docker run --rm -t owasp/zap2docker-stable zap-baseline.py -t http://192.168.1.11:3000'
+                bat 'docker stop horangi-test'
+                bat ''
             }
         }
         
